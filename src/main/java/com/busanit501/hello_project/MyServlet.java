@@ -21,6 +21,11 @@ public class MyServlet extends HttpServlet {  // HttpServlet 클래스를 상속
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServerException, IOException {
 
+        // 아래에 코드를 묶었는데,
+        // 결론, 서버가 -> 클라이언트에게 html 이라는 문번의 템플릿 문자열로 전송해서,
+        // -> 화면에 html 그리게 하기.
+        // ==================================================================
+
         // 응답의 콘텐츠 타입을 HTML로 설정하고, 문자 인코딩을 UTF-8로 지정
         // 이 설정은 한글이 올바르게 표시되도록 하기 위해 중요함
         resp.setContentType("text/html;charset=UTF-8");
@@ -40,5 +45,6 @@ public class MyServlet extends HttpServlet {  // HttpServlet 클래스를 상속
         out.println("</body></html>");
 
         // PrintWriter는 자동으로 닫히므로 명시적으로 close()를 호출할 필요 없음
+        // ==================================================================
     }
 }
