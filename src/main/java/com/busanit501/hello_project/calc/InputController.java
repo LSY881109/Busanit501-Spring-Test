@@ -22,12 +22,11 @@ public class InputController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("inputController..doGet 처리함, 화면 제공용");
-
-
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/calc/input.jsp");
         rd.forward(req, resp);
 
     }
 }
+
 
 
