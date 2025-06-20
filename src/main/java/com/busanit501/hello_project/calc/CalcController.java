@@ -23,5 +23,10 @@ public class CalcController extends HttpServlet {
 
         System.out.println("num1: " + num1);
         System.out.println("num2: " + num2);
+
+        // 화면 제공 없음. 단순 , 콘솔 출력 밖에 없음. 일단.
+        // 리다이렉트 기능을 통해서, 특정 화면으로 안내.
+        // 1) 화면에 직접 안내  x 2) 서블릿을 통해서 화면을 안내.
+        resp.sendRedirect("/index");
     }
 }
