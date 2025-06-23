@@ -46,4 +46,16 @@ public enum TodoService {
 //        return list;
         return todoDTOList2;
     }
+
+    // 하나 조회, TodoDTO , tno 번호에 해당하는 값 조회
+    // 현재는, 메모리 상에서 더미로 작업 중.
+    // 내일은 마리아 디비 서버 설치하고, 디비 연결을 할 예정.
+    public TodoDTO getTodoByTno(long tno) {
+        TodoDTO todoDTO = new TodoDTO();
+        todoDTO.setTno(tno);
+        todoDTO.setTitle("샘플 Todo ");
+        todoDTO.setDueDate(LocalDate.now());
+        todoDTO.setFinished(true);
+        return todoDTO;
+    }
 }
