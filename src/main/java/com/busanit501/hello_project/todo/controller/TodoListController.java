@@ -24,6 +24,7 @@ public class TodoListController extends HttpServlet {
 
         // 작업2,
         // 화면에, 데이터를 첨부하기.
+        // 키 : "list",  값 : dtoList
         req.setAttribute("list", dtoList);
 
         // 빌드 패턴으로 해당 객체에서, 사용하는 메서드를 연속적으로 사용하는 디자인 패턴형식
