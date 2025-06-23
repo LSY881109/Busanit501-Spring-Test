@@ -28,5 +28,25 @@ ${list}
         <li>${dto}</li>
     </c:forEach>
 </ul>
+
+<h2>숫자 1 ~ 10으로 반복문 이용해서 출력해보기. JSTL 이용</h2>
+<ul>
+    <c:forEach var="num" begin="1" end="10">
+        <li>${num}</li>
+    </c:forEach>
+</ul>
+
+<h2> 리스트의 크기를 2로 나눈 나머지가 0이면, 짝수, 아니면 홀수 </h2>
+<ul>
+    <c:forEach var="dto" items="${list}">
+        <li>${dto}</li>
+        <c:if test="${list.size() % 2 ==0}">
+            짝수
+        </c:if>
+        <c:if test="${list.size() % 2 !=0}">
+            홀수
+        </c:if>
+    </c:forEach>
+</ul>
 </body>
 </html>
