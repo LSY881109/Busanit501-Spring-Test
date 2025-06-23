@@ -14,7 +14,7 @@ public class TodoListController extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         System.out.println("todoListController.doGet 호출, 목록 화면제공. ");
         // 빌드 패턴으로 해당 객체에서, 사용하는 메서드를 연속적으로 사용하는 디자인 패턴형식
-        req.getRequestDispatcher("/WEB-INF/calc/list.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/todo/todoList.jsp").forward(req, resp);
         // 아직 화면은 미구현.
     }
 
