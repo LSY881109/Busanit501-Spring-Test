@@ -40,13 +40,36 @@ ${list}
 <ul>
     <c:forEach var="dto" items="${list}">
         <li>${dto}</li>
-        <c:if test="${list.size() % 2 ==0}">
+        <c:if test="${dto.tno % 2 ==0}">
             짝수
         </c:if>
-        <c:if test="${list.size() % 2 !=0}">
+        <c:if test="${dto.tno % 2 !=0}">
             홀수
         </c:if>
     </c:forEach>
 </ul>
+<h3> choose 이용해서, if랑 else 효과 </h3>
+<ul>
+    <c:forEach var="dto" items="${list}">
+        <c:choose>
+            <c:when test="${dto.tno % 2 == 0}">
+                <li> 짝수 , ${dto}</li>
+            </c:when>
+            <c:otherwise>
+                <li>홀수, ${dto}</li>
+            </c:otherwise>
+        </c:choose>
+    </c:forEach>
+</ul>
+
+<h3>JSTL 변수 설정하고 사용하는 방법. </h3>
+<c:set var="todoDTO" value="${list[0]}"/>
+
+<c:forEach var="dto" items="${list}">
+    <c:if test="${dto.tno == todoDTO.tno}">
+        ${dto}
+    </c:if>
+</c:forEach>
+
 </body>
 </html>
