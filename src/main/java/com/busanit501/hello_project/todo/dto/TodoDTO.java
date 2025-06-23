@@ -61,4 +61,6 @@ public class TodoDTO {
         this.dueDate = dueDate;
         this.finished = finished;
     }
+
+    public TodoDTO() {}
 }
