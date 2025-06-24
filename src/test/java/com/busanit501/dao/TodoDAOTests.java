@@ -57,4 +57,13 @@ public class TodoDAOTests {
         list.forEach(vo -> System.out.println(vo));
     }
 
+    //하나 조회 테스트
+    @Test
+    public void testSelectOne() throws Exception {
+        // 현재 디비 내용에 따라서, 다름. 3개의 더미 데이터 있음.
+        Long tno = 1L; // 디비에 존재해야함.
+        TodoVO todoVO = todoDAO.selectOne(tno);
+        System.out.println(todoVO);
+    }
+
 }
