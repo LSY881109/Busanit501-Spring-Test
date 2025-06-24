@@ -57,6 +57,12 @@ dependencies {
     testCompileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.38'
     testAnnotationProcessor group: 'org.projectlombok', name: 'lombok', version: '1.18.38'
 
+    // 4,
+    // Hikari CP, 디비 연결시, 사용하는 도구,
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
+    implementation group: 'com.zaxxer', name: 'HikariCP', version: '6.3.0'
+
 }
 
 test {
