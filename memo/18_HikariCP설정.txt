@@ -216,3 +216,205 @@ Spring Boot Actuator와 함께 사용하면 더 쉽게 모니터링할 수 있�
 ## 결론
 
 HikariCP는 성능, 안정성, 사용 편의성의 균형을 잘 맞춘 JDBC 커넥션 풀 라이브러리입니다. 특히 Spring Boot 애플리케이션에서 기본으로 사용되며, 최소한의 설정으로도 높은 성능을 발휘합니다. 대규모 애플리케이션에서는 환경에 맞는 적절한 풀 크기와 타임아웃 설정이 중요합니다.
+==================================================================
+옵션 관련 메모,
+# HikariCP의 PreparedStatement 캐시 옵션 설정 개념 및 설명
+
+## PreparedStatement 캐시 옵션의 개념
+
+HikariCP에서 제공하는 PreparedStatement 캐시 옵션은 SQL 쿼리 실행 성능을 크게 향상시키는 중요한 기능입니다. 이 옵션들은 HikariCP 자체 기능이 아니라 JDBC 드라이버(특히 MySQL)에 전달되는 속성으로, 데이터베이스 연결당 PreparedStatement 객체를 캐싱하여 재사용함으로써 성능을 최적화합니다.
+
+## 주요 PreparedStatement 캐시 옵션 설명
+
+### 1. cachePrepStmts (캐시 활성화)
+
+```java
+config.addDataSourceProperty("cachePrepStmts", "true");
+```
+
+- **개념**: PreparedStatement 캐싱 기능을 활성화하는 기본 옵션입니다.
+- **기본값**: 대부분의 JDBC 드라이버에서 `false`
+- **효과**: 이 옵션을 `true`로 설정하면 JDBC 드라이버는 자주 사용되는 PreparedStatement를 캐시하기 시작합니다.
+- **작동 방식**: SQL 문이 파싱되고 컴파일되는 과정을 한 번만 수행하고 이후 동일한 SQL은 캐시에서 재사용합니다.
+- **중요성**: 이 옵션이 `false`면 다른 캐시 관련 설정은 효과가 없습니다.
+
+### 2. prepStmtCacheSize (캐시 크기)
+
+```java
+config.addDataSourceProperty("prepStmtCacheSize", "250");
+```
+
+- **개념**: 각 연결(Connection)당 캐시할 수 있는 PreparedStatement의 최대 개수입니다.
+- **기본값**: 일반적으로 JDBC 드라이버에서 매우 작은 값(25 이하)으로 설정됨
+- **권장 값**: 애플리케이션에서 사용하는 고유 SQL 문의 수에 따라 결정 (일반적으로 250-500)
+- **효과**: 이 값을 늘리면 더 많은 다양한 SQL 문이 캐시될 수 있습니다.
+- **메모리 영향**: 값이 클수록 메모리 사용량이 증가하지만, 현대 시스템에서 250-500 정도의 PreparedStatement를 저장하는 것은 큰 부담이 아닙니다.
+
+### 3. prepStmtCacheSqlLimit (SQL 문 크기 제한)
+
+```java
+config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+```
+
+- **개념**: 캐시할 수 있는 SQL 문의 최대 길이(문자 수)입니다.
+- **기본값**: 일반적으로 JDBC 드라이버에서 작은 값(256 이하)으로 설정됨
+- **권장 값**: 복잡한 쿼리를 사용하는 경우 2048 이상으로 설정 (최대 4096)
+- **효과**: 이 값보다 긴 SQL 문은 캐시되지 않습니다.
+- **고려사항**: 너무 큰 값은 메모리 사용량을 증가시키지만, 복잡한 쿼리 또는 동적으로 생성되는 큰 IN 절을 사용하는 경우 유용합니다.
+
+## 작동 방식 상세 설명
+
+1. **PreparedStatement 생성 프로세스**:
+   - 일반적인 과정: SQL 파싱 → 구문 검사 → 실행 계획 생성 → 컴파일 → 실행
+   - 캐시 사용 시: 이미 처리된 PreparedStatement를 재사용하여 처음 세 단계 건너뜀
+
+2. **캐싱 메커니즘**:
+   - 각 데이터베이스 연결은 자체 PreparedStatement 캐시를 유지
+   - SQL 문이 처음 실행되면 캐시에 저장
+   - 동일한 SQL이 다시 실행되면 캐시에서 검색하여 재사용
+
+3. **성능 향상 요소**:
+   - SQL 파싱 오버헤드 감소
+   - 데이터베이스 서버의 쿼리 최적화 및 실행 계획 재사용
+   - 네트워크 트래픽 감소 (바인딩 변수만 전송)
+   - 가비지 컬렉션 부하 감소
+
+## 설정 예제 (전체 코드 컨텍스트)
+
+```java
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
+public class DatabaseConfig {
+
+    public HikariDataSource dataSource() {
+        HikariConfig config = new HikariConfig();
+
+        // 기본 연결 설정
+        config.setJdbcUrl("jdbc:mysql://localhost:3306/mydb");
+        config.setUsername("username");
+        config.setPassword("password");
+        config.setDriverClassName("com.mysql.cj.jdbc.Driver");
+
+        // 풀 설정
+        config.setMaximumPoolSize(10);
+        config.setMinimumIdle(5);
+        config.setIdleTimeout(300000);
+        config.setConnectionTimeout(30000);
+
+        // PreparedStatement 캐시 설정
+        config.addDataSourceProperty("cachePrepStmts", "true");
+        config.addDataSourceProperty("prepStmtCacheSize", "250");
+        config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+
+        // 추가적인 성능 최적화 옵션 (MySQL 특화)
+        config.addDataSourceProperty("useServerPrepStmts", "true");
+        config.addDataSourceProperty("useLocalSessionState", "true");
+        config.addDataSourceProperty("rewriteBatchedStatements", "true");
+        config.addDataSourceProperty("cacheResultSetMetadata", "true");
+        config.addDataSourceProperty("cacheServerConfiguration", "true");
+        config.addDataSourceProperty("elideSetAutoCommits", "true");
+        config.addDataSourceProperty("maintainTimeStats", "false");
+
+        return new HikariDataSource(config);
+    }
+}
+```
+
+## Spring Boot 설정 방법
+
+### application.properties
+
+```properties
+# 기본 연결 설정
+spring.datasource.url=jdbc:mysql://localhost:3306/mydb
+spring.datasource.username=username
+spring.datasource.password=password
+
+# HikariCP 설정
+spring.datasource.hikari.maximum-pool-size=10
+spring.datasource.hikari.minimum-idle=5
+
+# PreparedStatement 캐시 설정
+spring.datasource.hikari.data-source-properties.cachePrepStmts=true
+spring.datasource.hikari.data-source-properties.prepStmtCacheSize=250
+spring.datasource.hikari.data-source-properties.prepStmtCacheSqlLimit=2048
+
+# 추가 MySQL 최적화 옵션
+spring.datasource.hikari.data-source-properties.useServerPrepStmts=true
+spring.datasource.hikari.data-source-properties.useLocalSessionState=true
+```
+
+### application.yml
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb
+    username: username
+    password: password
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 5
+      data-source-properties:
+        cachePrepStmts: true
+        prepStmtCacheSize: 250
+        prepStmtCacheSqlLimit: 2048
+        useServerPrepStmts: true
+        useLocalSessionState: true
+```
+
+## 성능 영향 분석
+
+### 1. 캐시 활성화 전후 성능 비교
+
+| 설정 | DB 호출 시간 (ms) | CPU 사용량 | 메모리 사용량 |
+|------|-----------------|----------|------------|
+| 캐시 비활성화 | 10-15 ms | 높음 | 낮음 |
+| 캐시 활성화 | 2-5 ms | 낮음 | 약간 증가 |
+
+### 2. 적정 캐시 크기 설정 가이드라인
+
+- **소규모 애플리케이션**: prepStmtCacheSize = 50-100
+- **중규모 애플리케이션**: prepStmtCacheSize = 150-250
+- **대규모 애플리케이션**: prepStmtCacheSize = 300-500
+
+### 3. 캐시 크기와 SQL 제한 크기의 상관관계
+
+- `prepStmtCacheSize`가 크면 더 많은 고유 쿼리를 캐싱할 수 있지만 메모리 사용량이 증가
+- `prepStmtCacheSqlLimit`이 크면 더 복잡한 쿼리도 캐싱할 수 있지만 메모리 사용량이 증가
+
+## 최적화 권장사항
+
+1. **모든 애플리케이션에서 기본 설정**
+   ```java
+   config.addDataSourceProperty("cachePrepStmts", "true");
+   config.addDataSourceProperty("prepStmtCacheSize", "250");
+   config.addDataSourceProperty("prepStmtCacheSqlLimit", "2048");
+   ```
+
+2. **복잡한 쿼리가 많은 애플리케이션**
+   ```java
+   config.addDataSourceProperty("prepStmtCacheSize", "500");
+   config.addDataSourceProperty("prepStmtCacheSqlLimit", "4096");
+   ```
+
+3. **리소스가 제한된 환경**
+   ```java
+   config.addDataSourceProperty("prepStmtCacheSize", "100");
+   config.addDataSourceProperty("prepStmtCacheSqlLimit", "1024");
+   ```
+
+## 주의사항
+
+1. **메모리 사용량 모니터링**: 캐시 크기를 너무 크게 설정하면 메모리 사용량이 증가할 수 있습니다.
+
+2. **데이터베이스 서버 설정 확인**: MySQL의 경우 `max_prepared_stmt_count` 서버 설정도 확인해야 합니다.
+
+3. **동적 SQL 사용 시 주의**: 매번 다른 형태로 생성되는 동적 SQL은 캐싱 효과가 제한적일 수 있습니다.
+
+4. **캐시 관련 지표 모니터링**: 캐시 히트율과 메모리 사용량을 모니터링하여 설정을 조정하는 것이 좋습니다.
+
+## 결론
+
+HikariCP의 PreparedStatement 캐시 옵션은 데이터베이스 연결 풀의 성능을 크게 향상시킬 수 있는 중요한 설정입니다. `cachePrepStmts`, `prepStmtCacheSize`, `prepStmtCacheSqlLimit` 옵션을 적절히 설정하면 SQL 쿼리 실행 속도를 개선하고 데이터베이스 서버의 부하를 줄일 수 있습니다. 애플리케이션의 특성과 리소스 환경에 맞게 이러한 설정을 조정하여 최적의 성능을 달성하는 것이 중요합니다.
