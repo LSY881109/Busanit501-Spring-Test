@@ -117,5 +117,18 @@ public class TodoDAO {
         pstmt.executeUpdate();
     }
 
+    //수정 기능.
+    // TodoVO todoVO -> 화면에서, 변경할 데이터를 담아둔 모델 클래스
+    public void updateOne(TodoVO todoVO) throws Exception{
+        String sql = "update tbl_todo set title=?, dueDate=?, finished=? where tno=?";
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setString(1, todoVO.getTitle());
+        pstmt.setDate(2, Date.valueOf(todoVO.getDueDate()));
+        pstmt.setBoolean(3, todoVO.isFinished());
+        pstmt.setLong(4, todoVO.getTno());
+        pstmt.executeUpdate();
+    }
+
 
 }

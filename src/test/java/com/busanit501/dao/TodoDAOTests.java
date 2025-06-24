@@ -76,4 +76,20 @@ public class TodoDAOTests {
         System.out.println("삭제 완료");
     }
 
+    // 수정테스트
+    @Test
+    public void testUpdateOne() throws Exception {
+        // 변경할 임시 데이터를, 화면에서 받아왔다고 가정하고,
+        // 받아온 데이터를 -> 모델에 담아서,
+        // dao 로 업데이트 기능 수행.
+        TodoVO vo = TodoVO.builder()
+                .tno(2L)
+                .title("수정 제목")
+                .dueDate(LocalDate.now())
+                .finished(true)
+                .build();
+        // 업데이트 로직 처리 요청.
+        todoDAO.updateOne(vo);
+    }
+
 }
