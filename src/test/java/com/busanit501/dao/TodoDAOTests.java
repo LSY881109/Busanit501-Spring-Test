@@ -66,4 +66,14 @@ public class TodoDAOTests {
         System.out.println(todoVO);
     }
 
+    // 삭제 테스트
+    @Test
+    public void testDeleteOne() throws Exception {
+        // 현재 디비 내용에 따라서, 다름. 3개의 더미 데이터 있음.
+        Long tno = 1L; // 디비에 존재해야함.
+        todoDAO.deleteOne(tno);
+        // 실제 디비를 확인.
+        System.out.println("삭제 완료");
+    }
+
 }

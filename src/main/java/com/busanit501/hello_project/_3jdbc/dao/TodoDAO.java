@@ -108,5 +108,14 @@ public class TodoDAO {
         return vo;
     }
 
+    // 삭제 기능
+    public void deleteOne(Long tno) throws Exception{
+        String sql = "delete from tbl_todo where tno=?";
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = connection.prepareStatement(sql);
+        pstmt.setLong(1, tno);
+        pstmt.executeUpdate();
+    }
+
 
 }
