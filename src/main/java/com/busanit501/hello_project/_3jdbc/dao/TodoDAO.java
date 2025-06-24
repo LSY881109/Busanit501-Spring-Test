@@ -4,6 +4,8 @@ import com.busanit501.hello_project._3jdbc.domain.TodoVO;
 import lombok.Cleanup;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class TodoDAO {
     // 1, 테스트용으로 현재 시간 가져오는 메서드 , 디비서버에서 받아오기.
@@ -57,6 +59,33 @@ public class TodoDAO {
         // 실제 디비서버에 반영하기. 쓰기 작업 진행.
         pstmt.executeUpdate();
 
+    } // insert
+
+    // 전체 조회 기능.
+    public List<TodoVO> selectAll() throws Exception{
+        String sql ="select * from tbl_todo";
+
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = connection.prepareStatement(sql);
+        // 조회, ResultSet 필요함.
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        // 디비로 부터 전달 받은 내용을 담아 둘 임시 리스트
+        List<TodoVO> list = new ArrayList<>();
+
+        // 검색 결과를, -> 모델 담고 -> 리스트에 담기 , 반복 하기.
+        while(rs.next()){
+            // 디비로 부터 받은 하나의 행의 값을 저장할 임시 모델 객체
+            TodoVO vo = TodoVO.builder()
+                    .tno(rs.getLong("tno"))
+                    .title(rs.getString("title"))
+                    .dueDate(rs.getDate("dueDate").toLocalDate())
+                    .finished(rs.getBoolean("finished"))
+                    .build();
+            // 모델 -> 리스트 담기.
+            list.add(vo);
+        }
+        return list;
     }
 
 

@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.List;
 
 public class TodoDAOTests {
     // 1, TodoDAO 기능 사용하기, 가져오기.
@@ -46,4 +47,14 @@ public class TodoDAOTests {
         // TodoDAO 기능 이용해서, insert 해보기.
         todoDAO.insert(todoVO);
     }
+
+    // 전체 조회 테스트
+    @Test
+    public void testList() throws Exception {
+        // 디비로 부터 전달 받은 리스트를 담을 임시 리스트 만들고, 확인.
+        List<TodoVO> list = todoDAO.selectAll();
+        // 임시로 콘솔에 출력 해보기.
+        list.forEach(vo -> System.out.println(vo));
+    }
+
 }
