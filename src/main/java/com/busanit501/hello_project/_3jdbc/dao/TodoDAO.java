@@ -1,5 +1,7 @@
 package com.busanit501.hello_project._3jdbc.dao;
 
+import lombok.Cleanup;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -24,6 +26,19 @@ public class TodoDAO {
         return now;
 
     } //getTime
+
+    //2. 똑같은 기능, 시간 가져오기,
+    // 자원 반납을 다르게 표현.
+    // Lombok 기능 중에서,  @Cleanup 을 이용해서, 자동반납 하기.
+    public String getTime2() throws Exception {
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = connection.prepareStatement("select now()");
+        @Cleanup ResultSet rs = pstmt.executeQuery();
+
+        rs.next(); // 가상 테이블에서 데이터 가져오고,
+        String now = rs.getString(1);
+        return now;
+    }
 
 
 }
