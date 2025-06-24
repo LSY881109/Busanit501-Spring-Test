@@ -46,5 +46,5 @@ bin/
 .idea/**/dataSources.local.xml
 .idea/**/dataSources/
 .idea/git_toolbox_prj.xml
-.idea/**/gradle.xml
-.idea/**/vcs.xml
+#.idea/**/gradle.xml
+#.idea/**/vcs.xml
