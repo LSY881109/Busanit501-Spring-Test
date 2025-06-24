@@ -249,6 +249,12 @@ compileOnly group: 'org.projectlombok', name: 'lombok', version: '1.18.36'
 
  **사용 방법**:
  ```java
+ 전(기본 인스턴스 생성)
+ Order order = new Order();
+ order.setName();
+ order.setPassword();
+
+ 후
  Order order = Order.builder()
          .id(1L)
          .customerName("John Doe")
