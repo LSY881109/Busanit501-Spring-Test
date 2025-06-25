@@ -31,6 +31,12 @@ public class TodoRegController extends HttpServlet {
     // 화면으로부터 전달 받은 데이터를 , 모델 클래스 TodoDTO에 담아서 전달 하기.
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        // 화면으로 부터 전달받은 데이터 인코딩 타입 UTF-8,
+        // 서버에서 받아서 처리 할 때도 같은 인코딩 타입으로 처리.
+        // 현재 방법1, 코드로 처리 했고,
+        // 방법2) 뒤에서 처리하기.
+        // web.xml, 서버 시작 할 때, 항상 들어오는 데이터 타입을  UTF-8 기본설정.
+        req.setCharacterEncoding("UTF-8");
         TodoDTO todoDTO = TodoDTO.builder()
                 .title(req.getParameter("title"))
                 .dueDate(LocalDate.parse(req.getParameter("dueDate"), formatter))
