@@ -31,7 +31,7 @@ public class TodoListController extends HttpServlet {
             // 화면에 탑재 해보기.
             req.setAttribute("dtoList", dtoList);
             // 화면에 전달
-            req.getRequestDispatcher("/WEB-INF/todo_list.jsp").forward(req, resp);
+            req.getRequestDispatcher("/WEB-INF/todoList.jsp").forward(req, resp);
         }catch (Exception e){
             log.error(e.getMessage());
             throw new ServletException(e.getMessage());
