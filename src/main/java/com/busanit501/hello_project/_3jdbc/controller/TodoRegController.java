@@ -19,8 +19,7 @@ public class TodoRegController extends HttpServlet {
     // 등록 1) 등록 화면 get , 2)등록 처리 post
     // 외주 맡기기, 등록을 구현 할수 있는  , TodoService 외주 요청. 준비.
     private TodoService todoService = TodoService.INSTANCE;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
+    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         log.info("TodoRegController : 등록 화면 제공 , doGet 작업");
