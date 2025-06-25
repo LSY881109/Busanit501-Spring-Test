@@ -3,11 +3,13 @@ package com.busanit501.service;
 
 import com.busanit501.hello_project._3jdbc.dto.TodoDTO;
 import com.busanit501.hello_project._3jdbc.service.TodoService;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
 
+@Log4j2
 public class TodoServiceTests {
     // 서비스의 기능을 불러오기.
     private TodoService todoService;
@@ -27,6 +29,8 @@ public class TodoServiceTests {
                 .title("서비스, 단위테스트 진행")
                 .dueDate(LocalDate.now())
                 .build();
+        log.info("TodoService 테스트: ");
+        log.info("TodoService 테스트에서 todoDTO:"+todoDTO);
         // 서비스에서 기능 테스트.
         todoService.register(todoDTO);
     }
