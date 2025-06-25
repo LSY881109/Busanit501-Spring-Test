@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!--        로그 레벨 계층: (낮음) TRACE < DEBUG < INFO < WARN < ERROR < FATAL (높음)-->
 <!--자바 기반의 로깅 프레임 워크 -->
 <!--        Appenders , 설정은, 출력 대상을 정의하는 곳, -->
 <!--예시, 1) 콘솔, 2) 파일 3) 데이터베이스 기록이 가능. -->
@@ -29,7 +30,8 @@
         <!--        추가 부분-->
         <!--        특정 패키지 명으로 설정가능. -->
         <Logger name="com.busanit501" level="debug" additivity="false">
-            <AppenderRef ref="FileAppender" level="error"/>
+<!--            additivity="false": 상위 로거(Root 로거)로 이벤트를 전달하지 않음-->
+            <AppenderRef ref="FileAppender" level="info"/>
             <AppenderRef ref="Console" level="info"/>
         </Logger>
         <!--        추가 부분-->
