@@ -63,6 +63,11 @@ dependencies {
     // https://mvnrepository.com/artifact/com.zaxxer/HikariCP
     implementation group: 'com.zaxxer', name: 'HikariCP', version: '6.3.0'
 
+    // 5,
+    // 모델 맵퍼, DTO <-> VO 변환 해주는 도구.
+    // https://mvnrepository.com/artifact/org.modelmapper/modelmapper
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '3.2.4'
+
 }
 
 test {
