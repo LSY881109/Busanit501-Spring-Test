@@ -59,6 +59,8 @@ public class TodoServiceTests {
     public void testModify() throws Exception{
         // 실제 수정 할 데이터 파악
         TodoDTO todoDTO = todoService.getByTno(14L);
+        // 변경할 내용이 빠짐.
+        todoDTO.setTitle("제목만 변경해보기.");
         log.info("서비스 단위테스트 수정 확인 todoDTO :"+todoDTO);
         todoService.modify(todoDTO);
         log.info("서비스 단위테스트 수정 확인2 ");
