@@ -15,7 +15,7 @@ import java.io.IOException;
 public class LoginCheckFilter implements Filter {
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
-       log.info("LoginCheckFilter 에서, 작업중. ");
+       log.info("LoginCheckFilter 에서, 작업중. /todo/* , 접근시 검사 대상입니다.");
        // 로그인 체크 규칙 ,
         // ServletRequest -> HttpServletRequest , 다운캐스팅,
         HttpServletRequest req = (HttpServletRequest)servletRequest;
@@ -27,6 +27,7 @@ public class LoginCheckFilter implements Filter {
         // 세션에 키 : loginInfo , 값: mid+mpw , 존재하면, 로그인 된 상태이고,
         // 세션에 키 : loginInfo  없으면, 로그인 안되었다.
         if (session.getAttribute("loginInfo") == null) {
+            log.info("LoginCheckFilter 에서, 작업중, loginInfo 비어 있음");
             resp.sendRedirect("/login");
             return;
         }
