@@ -14,6 +14,7 @@ import java.util.List;
 
 @WebServlet(name = "todoListController2", value = "/todo/list2")
 @Log4j2
+// 전달 개요 : 화면 -> 컨트롤러(C):현위치 -> 서비스 (S) - > DAO() -> DB
 public class TodoListController extends HttpServlet {
     // 서비스의 도움을 받기, 서비스 기능 가져오기. 준비하기.
     private TodoService todoService = TodoService.INSTANCE;
