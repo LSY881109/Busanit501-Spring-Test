@@ -15,10 +15,11 @@
 </head>
 <body>
 <h1>Todo List 임시 화면</h1>
+<a href="/todo/register2">글쓰기</a>
     <c:forEach items="${dtoList}" var = "dto">
         <li>
             <span><a href="/todo/read2?tno=${dto.tno}">${dto.tno}</a></span>
-            <span>${dto.tilte}</span>
+            <span>${dto.title}</span>
             <span>${dto.dueDate}</span>
             <span>${dto.finished ? "완료" : "미완료"}</span>
         </li>
