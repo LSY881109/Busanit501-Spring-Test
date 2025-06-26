@@ -62,7 +62,7 @@ public class TodoRegController extends HttpServlet {
         // 현재 방법1, 코드로 처리 했고,
         // 방법2) 뒤에서 처리하기.
         // web.xml, 서버 시작 할 때, 항상 들어오는 데이터 타입을  UTF-8 기본설정.
-        req.setCharacterEncoding("UTF-8");
+//        req.setCharacterEncoding("UTF-8");
         TodoDTO todoDTO = TodoDTO.builder()
                 .title(req.getParameter("title"))
                 .dueDate(LocalDate.parse(req.getParameter("dueDate"), formatter))
