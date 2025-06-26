@@ -46,7 +46,7 @@ public class TodoRegController extends HttpServlet {
 
         // 정상적인 상태, 1) JSSESIONID 존재, 2) 세션이라는 서버의 임시 메모리 공간에 키: loginInfo 있다면,
         // 정상인 경우만, 글쓰기 폼 화면으로 안내 하겠다.
-        req.getRequestDispatcher("/WEB-INF/todo/register.jsp").forward(req, resp);
+        req.getRequestDispatcher("/WEB-INF/todo/todoReg.jsp").forward(req, resp);
         //=======================================================================
 
         // 화면 전달 먼저 하기.
