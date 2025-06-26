@@ -14,6 +14,10 @@
     <title>Title</title>
 </head>
 <body>
+
+<h1>세션 정보 확인</h1>
+<p>EL 표기법 , 간단히 로그인 정보 : ${sessionScope.loginInfo}</p>
+
 <h1>Todo List 임시 화면</h1>
 <a href="/todo/register2">글쓰기</a>
     <c:forEach items="${dtoList}" var = "dto">
