@@ -6,10 +6,7 @@ import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
 import java.io.IOException;
 import java.util.UUID;
 
@@ -73,8 +70,23 @@ public class LoginController extends HttpServlet {
                 String uuid= UUID.randomUUID().toString();
                 log.info("LoginController,uuid 샘플 확인 :  " + uuid);
                 // 다음 시간에 이어서 하기.
+                // DB에, 해당 멤버의 uuid 업데이트 작업,
                 MemberService.INSTANCE.updateUuid(mid,uuid);
+                // uuid 를 현재 , 세션에 저장,
                 memberDTO.setUuid(uuid);
+
+                // 자동로그인을 하는게, 아이디와 패스워드를 입력 안하고, 바로 접근.
+                // 로그인 -> 성공 -> 리스트
+                // 자동 로그인 체크 -> 리스트 바로 감.
+                // 원리는 , 자동 로그인 체크시, 서버 -> 웹브라우저에게 쿠키를 만들어줌.
+                // 자동 로그인을 해당 쿠키 정보로 로그인 함.
+                Cookie rememberCookie = new Cookie("remember-me", uuid);
+                rememberCookie.setPath("/");
+                // 쿠키 유효기간, 테스트 용도, 3분,
+                rememberCookie.setMaxAge(60*3);
+                // 서버 -> 웹 브라우저에게 전달.
+                resp.addCookie(rememberCookie);
+
 
             }
             //===========================================================
