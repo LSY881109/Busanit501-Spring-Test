@@ -1,5 +1,7 @@
 package com.busanit501.hello_project._3jdbc.controller;
 
+import com.busanit501.hello_project._3jdbc.dto.MemberDTO;
+import com.busanit501.hello_project._3jdbc.service.MemberService;
 import lombok.extern.log4j.Log4j2;
 
 import javax.servlet.ServletException;
@@ -8,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.sql.rowset.serial.SerialException;
 import java.io.IOException;
 
 @WebServlet(name = "loginController", urlPatterns = "/login")
@@ -27,13 +28,29 @@ public class LoginController extends HttpServlet {
         String mid = req.getParameter("mid");
         String mpw = req.getParameter("mpw");
 
-        String str = mid+mpw;
+        // 전,
+        // 값으로, mid+mpw, 문자열을 사용했고
+//        String str = mid+mpw;
+//        // 임시 로그인 구현, 서버의 세션을 이용해서,
+//        // 서버의 임시 메모리 공간인 세션이라는 곳에, 키 : loginInfo , 값으로 : mid+mpw, 저장,
+//        HttpSession session = req.getSession();
+//        // 키 : loginInfo , 값으로 : mid+mpw, 저장
+//        session.setAttribute("loginInfo", str);
+//        resp.sendRedirect("/todo/list2");
 
-        // 임시 로그인 구현, 서버의 세션을 이용해서,
-        // 서버의 임시 메모리 공간인 세션이라는 곳에, 키 : loginInfo , 값으로 : mid+mpw, 저장,
-        HttpSession session = req.getSession();
-        // 키 : loginInfo , 값으로 : mid+mpw, 저장
-        session.setAttribute("loginInfo", str);
-        resp.sendRedirect("/todo/list2");
+        // 후
+        // 디비에서, 로그인 처리를 한 유저를 , 담기 MemberDTO을 값으로 저장,
+        try {
+            // 로그인한 유저 정보가 디비에 있다면 가져오기
+            MemberDTO memberDTO = MemberService.INSTANCE.login(mid, mpw);
+            // 세션 도구 이용하고
+            HttpSession session = req.getSession();
+            // 세션(서버의 임시 메모리 저장소), 키 : loginInfo, 값 : memberDTO , 저장
+            session.setAttribute("loginInfo", memberDTO);
+            resp.sendRedirect("/todo/list2");
+        }catch (Exception e){
+            resp.sendRedirect("/login?result=error");
+        }
+
     }
 }
