@@ -82,8 +82,8 @@ public class LoginController extends HttpServlet {
                 // 자동 로그인을 해당 쿠키 정보로 로그인 함.
                 Cookie rememberCookie = new Cookie("remember-me", uuid);
                 rememberCookie.setPath("/");
-                // 쿠키 유효기간, 테스트 용도, 3분,
-                rememberCookie.setMaxAge(60*3);
+                // 쿠키 유효기간, 테스트 용도, 3분,-> 삭제 여부 확인 -> 1일 변경.
+                rememberCookie.setMaxAge(60*60*24);
                 // 서버 -> 웹 브라우저에게 전달.
                 resp.addCookie(rememberCookie);
 
