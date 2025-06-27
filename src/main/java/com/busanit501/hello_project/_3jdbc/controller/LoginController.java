@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.UUID;
 
 @WebServlet(name = "loginController", urlPatterns = "/login")
 @Log4j2
@@ -28,6 +29,19 @@ public class LoginController extends HttpServlet {
         String mid = req.getParameter("mid");
         String mpw = req.getParameter("mpw");
 
+        //===========================================================
+        // 로그인 화면에서, 자동로그인 체크시, 키: auto , 값 : "on" 여부 확인.
+        String auto = req.getParameter("auto");
+        boolean rememberMe = auto != null && auto.equals("on");
+        if(rememberMe){ // 자동 로그인이 맞다면,
+            // UUID : 랜덤하게 생성하는 문자열.
+            // uuid 가 중복되지 않게, 랜덤한 문자열 생성하기.
+            String uuid= UUID.randomUUID().toString();
+            // 다음 시간에 이어서 하기.
+
+        }
+        //===========================================================
+
         // 전,
         // 값으로, mid+mpw, 문자열을 사용했고
 //        String str = mid+mpw;
@@ -38,6 +52,7 @@ public class LoginController extends HttpServlet {
 //        session.setAttribute("loginInfo", str);
 //        resp.sendRedirect("/todo/list2");
 
+        //===========================================================
         // 후
         // 디비에서, 로그인 처리를 한 유저를 , 담기 MemberDTO을 값으로 저장,
         try {
@@ -52,6 +67,7 @@ public class LoginController extends HttpServlet {
             // 서버에서 -> 웹브라우저로 데이터 전달, 쿼리스트링 형식
             resp.sendRedirect("/login?result=error");
         }
+        //===========================================================
 
     }
 }

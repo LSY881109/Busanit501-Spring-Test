@@ -21,6 +21,8 @@
 <form action="/login" method="post">
     <input type="text" name="mid">
     <input type="password" name="mpw">
+    <input type="checkbox" name="auto">자동 로그인
+    <br>
     <button type="submit">로그인</button>
 </form>
 </body>
