@@ -24,7 +24,7 @@ public class LoginController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        log.info("로그인 로직 처리 , doPost");
+        log.info("LoginController, 로그인 로직 처리 , doPost");
         //로그인 화면에서, mid, mpw 의 값을 가져오기,
         String mid = req.getParameter("mid");
         String mpw = req.getParameter("mpw");
@@ -33,12 +33,13 @@ public class LoginController extends HttpServlet {
         // 로그인 화면에서, 자동로그인 체크시, 키: auto , 값 : "on" 여부 확인.
         String auto = req.getParameter("auto");
         boolean rememberMe = auto != null && auto.equals("on");
-        log.info("화면에서 전달 받은 auto 의 on 확인 : " + auto);
-        log.info("화면에서 전달 받은 auto 의 auto.equals(\"on\") rememberMe확인2 : " + rememberMe);
+        log.info("LoginController, 화면에서 전달 받은 auto 의 on 확인 : " + auto);
+        log.info("LoginController, 화면에서 전달 받은 auto 의 auto.equals(\"on\") rememberMe확인2 : " + rememberMe);
         if(rememberMe){ // 자동 로그인이 맞다면,
             // UUID : 랜덤하게 생성하는 문자열.
             // uuid 가 중복되지 않게, 랜덤한 문자열 생성하기.
             String uuid= UUID.randomUUID().toString();
+            log.info("LoginController,uuid 샘플 확인 :  " + uuid);
             // 다음 시간에 이어서 하기.
 
         }
