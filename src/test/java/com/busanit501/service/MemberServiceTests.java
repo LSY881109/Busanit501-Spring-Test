@@ -27,10 +27,11 @@ public class MemberServiceTests {
        MemberDTO memberDTO = memberService.login(mid, mpw);
        log.info("멤버서비스 테스트 : 로그인 확인 된 유저 :"+memberDTO);
     }
-    
+
     // 업데이트 uuid
+    @Test
     public void updateUuid() throws  Exception {
-        String mid = "lsy";
+        String mid = "lsy2";
         String uuid = UUID.randomUUID().toString();
         memberService.updateUuid(mid,uuid);
     }
