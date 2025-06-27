@@ -49,6 +49,7 @@ public class LoginController extends HttpServlet {
             session.setAttribute("loginInfo", memberDTO);
             resp.sendRedirect("/todo/list2");
         }catch (Exception e){
+            // 서버에서 -> 웹브라우저로 데이터 전달, 쿼리스트링 형식
             resp.sendRedirect("/login?result=error");
         }
 
