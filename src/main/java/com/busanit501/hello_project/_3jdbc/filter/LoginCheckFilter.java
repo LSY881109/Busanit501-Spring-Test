@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
 
 // /todo/* 로 요청되는 request 모두 검사 대상자.
 @WebFilter(urlPatterns = "/todo/*")
@@ -54,6 +56,13 @@ public class LoginCheckFilter implements Filter {
     // todoReadController 에 있는데, 통으로 복사했음. , 나중에 많이 사용시.
     // 파일 분리해서 사용해도 됩니다.
     private Cookie findCookie(Cookie[] cookies, String findCookieName) {
-        return  null;
+        if(cookies==null || cookies.length==0){
+            return null;
+        }
+        // 전체 쿠키의 목록이 존재한다면,
+        Optional<Cookie>  result = Arrays.stream(cookies)
+                .filter(cookie -> cookie.getName().equals(findCookieName))
+                .findFirst();
+        return  result.isPresent()? result.get() : null;
     }
 }
