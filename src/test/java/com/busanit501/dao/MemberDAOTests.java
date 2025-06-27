@@ -40,4 +40,14 @@ public class MemberDAOTests {
 
     }
 
+    // uuid 유저의 검색
+    @Test
+    public void testSearchWithUuid() throws Exception {
+       // 실제 테이블에서, uuid 를 복사해서 사용하기.
+        String uuid = "ff39cd7c-8052-40c2-b897-4e8bcd03a435";
+        MemberVO memberVO = memberDAO.getMemberVOByUuid(uuid);
+        log.info("DAO 테스트, uuid 로 검색한 유저 :  " + memberVO);
+
+    }
+
 }
