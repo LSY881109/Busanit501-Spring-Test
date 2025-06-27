@@ -22,9 +22,11 @@ public class MemberDAO {
 
         rs.next();
         // 회원 정보가 있다면, 모델 클래스 담기.
+        // 디비의 내용을 담아야 하는데, 화면에서 받아온 정보를 또 담고 있음. 여기가 틀림.
         memberVO = MemberVO.builder()
-                .mid(mid)
-                .mpw(mpw)
+                .mid(rs.getString("mid"))
+                .mpw(rs.getString("mpw"))
+                .mname(rs.getString("mname"))
                 .build();
 
         return memberVO;
