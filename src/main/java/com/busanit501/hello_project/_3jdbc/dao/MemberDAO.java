@@ -31,4 +31,14 @@ public class MemberDAO {
 
         return memberVO;
     }
+
+    // 자동로그인 기능 구현 , 도구, uuid 업데이트
+    public void updateUuid(String mid, String uuid) throws Exception {
+        String query= "update tbl_member set uuid=? where mid=?";
+        @Cleanup Connection connection = ConnectionUtil.INSTANCE.getConnection();
+        @Cleanup PreparedStatement pstmt = connection.prepareStatement(query);
+        pstmt.setString(1, uuid);
+        pstmt.setString(2, mid);
+        pstmt.executeUpdate();
+    }
 }
