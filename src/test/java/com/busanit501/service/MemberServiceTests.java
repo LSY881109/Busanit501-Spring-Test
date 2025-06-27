@@ -1,5 +1,6 @@
 package com.busanit501.service;
 
+import com.busanit501.hello_project._3jdbc.domain.MemberVO;
 import com.busanit501.hello_project._3jdbc.dto.MemberDTO;
 import com.busanit501.hello_project._3jdbc.service.MemberService;
 import com.busanit501.hello_project._3jdbc.service.TodoService;
@@ -34,6 +35,16 @@ public class MemberServiceTests {
         String mid = "lsy2";
         String uuid = UUID.randomUUID().toString();
         memberService.updateUuid(mid,uuid);
+    }
+
+    // uuid 멤버 검색
+    @Test
+    public void testSearchWithUuid() throws Exception {
+        // 실제 테이블에서, uuid 를 복사해서 사용하기.
+        String uuid = "ff39cd7c-8052-40c2-b897-4e8bcd03a435";
+       MemberDTO memberDTO = memberService.getMemberDTOByUuid(uuid);
+        log.info("MemberService 테스트, uuid 로 검색한 유저 :  " + memberDTO);
+
     }
 
 }
