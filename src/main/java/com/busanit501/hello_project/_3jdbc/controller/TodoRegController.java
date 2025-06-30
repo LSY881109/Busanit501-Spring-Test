@@ -29,7 +29,7 @@ public class TodoRegController extends HttpServlet {
         //====================================================================
         // 0630, 서블릿 리스너 통해서, 서버 시작시, 등록된 내용을, 리스트에서 사용해보기.
         ServletContext servletContext = req.getServletContext();
-        log.info("TodoListController doGet ,서버 시작시 등록된 값 사용해보기");
+        log.info("TodoRegController doGet ,서버 시작시 등록된 값 사용해보기");
         log.info((String) servletContext.getAttribute("lunchMenu"));
         //====================================================================
 
