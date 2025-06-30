@@ -2,6 +2,7 @@ package com.busanit501.hello_project._3jdbc.listener;
 
 import lombok.extern.log4j.Log4j2;
 
+import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
@@ -17,6 +18,11 @@ public class WebAppListener implements ServletContextListener {
         log.info(("WebAppListener 클래스, 초기 작업 1======================="));
         log.info(("WebAppListener 클래스, 초기 작업 1======================="));
         log.info(("WebAppListener 클래스, 프로젝트가 실행되면, 하고 싶은 작업 예시======================="));
+
+        // 서블릿 컨텍스트 , 임시 공간에, 서버 시작시, 특정 키, 값을 저장해서,
+        // 리스트 화면에서 불러와 사용해보기.
+        ServletContext servletContext = event.getServletContext();
+        servletContext.setAttribute("lunchMenu", "오늘 점심 뭐 먹지? 도시락");
 
     }
     @Override
